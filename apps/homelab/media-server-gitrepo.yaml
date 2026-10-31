@@ -8,6 +8,6 @@ spec:
   interval: 1m0s
   ref:
     branch: main
-  url: https://gitlab.com/arldka/media-server.git
+  url: https://gitlab.com/arldka/media-server-ks.git
   secretRef:
     name: gitlab-token

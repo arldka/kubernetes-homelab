@@ -1,0 +1,25 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMNodeScrape
+metadata:
+  name: kubelet-cadvisor
+  namespace: monitoring
+spec:
+  scheme: https
+  path: /metrics/cadvisor
+  interval: 30s
+  scrapeTimeout: 20s
+  honorLabels: true
+  bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+  tlsConfig:
+    insecureSkipVerify: true
+  relabelConfigs:
+    - action: labelmap
+      regex: __meta_kubernetes_node_label_(.+)
+    - targetLabel: job
+      replacement: kubelet
+    - sourceLabels: [__metrics_path__]
+      targetLabel: metrics_path
+  metricRelabelConfigs:
+    - sourceLabels: [__name__]
+      regex: container_(network_tcp_usage_total|network_udp_usage_total|tasks_state|cpu_load_average_10s)
+      action: drop

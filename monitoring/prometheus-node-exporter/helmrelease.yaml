@@ -1,0 +1,29 @@
+
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: prometheus-node-exporter
+  namespace: monitoring
+spec:
+  interval: 10m
+  chartRef:
+    kind: OCIRepository
+    name: prometheus-node-exporter
+  uninstall:
+    deletionPropagation: orphan
+  values:
+    prometheusScrape: false
+    image:
+      distroless: true
+    networkPolicy:
+      enabled: true
+    prometheus:
+      monitor:
+        enabled: true
+    resources:
+      limits:
+        cpu: 100m
+        memory: 50Mi
+      requests:
+        cpu: 50m
+        memory: 50Mi

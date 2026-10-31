@@ -1,0 +1,15 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  name: vmoperator
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      control-plane: vm-operator
+      app.kubernetes.io/name: victoria-metrics-operator
+  endpoints:
+    - port: http
+  namespaceSelector:
+    matchNames:
+      - vm

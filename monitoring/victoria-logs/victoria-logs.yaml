@@ -1,0 +1,23 @@
+apiVersion: operator.victoriametrics.com/v1
+kind: VLSingle
+metadata:
+  name: vlogs
+  namespace: monitoring
+spec:
+  image:
+    repository: victoriametrics/victoria-logs
+    tag: v1.53.0
+    pullPolicy: Always
+  retentionPeriod: "15"
+  removePvcAfterDelete: true
+  storage:
+    resources:
+      requests:
+        storage: 20Gi
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 250m
+    limits:
+      memory: 256Mi
+      cpu: 500m

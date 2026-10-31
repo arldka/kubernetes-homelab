@@ -1,0 +1,44 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: flux-system
+resources:
+- https://github.com/fluxcd/flux2/releases/download/v2.9.6/install.yaml
+- gitrepo.yaml
+- root-ks.yaml
+patches:
+- target:
+    version: v1
+    group: apps
+    kind: Deployment
+    namespace: flux-system
+  path: lower-resources.yaml
+#- patch: |
+#    - op: add
+#      path: /spec/template/spec/containers/0/env/0
+#      value:
+#        name: EXPERIMENTAL_GIT_TRANSPORT
+#        value: "true"
+#  target:
+#    kind: Deployment
+#    name: "(source-controller|image-automation-controller)"
+- patch: |-
+    $patch: delete
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: image-automation-controller
+      namespace: flux-system
+- patch: |-
+    $patch: delete
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: image-reflector-controller
+      namespace: flux-system
+- patch: |-
+    $patch: delete
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: notification-controller
+      namespace: flux-system

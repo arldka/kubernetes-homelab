@@ -1,0 +1,24 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn-release
+  namespace: longhorn-system
+spec:
+  chart:
+    spec:
+      chart: longhorn
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn-repo
+      version: v1.13.0
+  values:
+    longhornUI:
+      replicas: 1
+    defaultSettings:
+      defaultDataPath: /var/mnt/longhorn
+    persistence:
+      defaultClassReplicaCount: 1
+      migratable: true
+  interval: 1m0s

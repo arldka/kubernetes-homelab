@@ -1,0 +1,21 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: vlogs
+  namespace: monitoring
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  datasource:
+    name: VictoriaLogs
+    uid: vlogs
+    type: victoriametrics-logs-datasource
+    access: proxy
+    url: http://vlsingle-vlogs.monitoring.svc.cluster.local:9428
+    isDefault: false
+    jsonData:
+      maxLines: 1000
+  plugins:
+  - name:  victoriametrics-logs-datasource
+    version: 0.33.1

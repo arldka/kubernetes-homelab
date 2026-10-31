@@ -1,0 +1,20 @@
+apiVersion: operator.victoriametrics.com/v1
+kind: VLAgent
+metadata:
+  name: vlagent
+  namespace: monitoring
+spec:
+  logFormat: json
+  logLevel: WARN
+  k8sCollector:
+    enabled: true
+  extraArgs:
+      insert.maxLineSizeBytes: 1MiB
+  remoteWrite:
+      - url: "http://vlsingle-vlogs.monitoring:9428/internal/insert"
+  storage:
+    volumeClaimTemplate:
+      spec:
+        resources:
+          requests:
+            storage: 2Gi

@@ -1,0 +1,26 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMSingle
+metadata:
+  name: vmetrics
+  namespace: monitoring
+spec:
+  image:
+    repository: victoriametrics/victoria-metrics
+    tag: v1.154.1
+    pullPolicy: Always
+  retentionPeriod: "30"
+  removePvcAfterDelete: true
+  selectAllByDefault: true
+  storage:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 250m
+    limits:
+      memory: 256Mi
+      cpu: 500m

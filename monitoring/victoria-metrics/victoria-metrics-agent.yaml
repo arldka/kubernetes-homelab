@@ -1,0 +1,11 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMAgent
+metadata:
+  name: vmagent
+  namespace: monitoring
+spec:
+  logFormat: json
+  logLevel: WARN
+  remoteWrite:
+  - url: "http://vmsingle-vmetrics.monitoring:8428/api/v1/write"
+  selectAllByDefault: true

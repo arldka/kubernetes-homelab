@@ -1,0 +1,66 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: grafana
+  labels:
+    dashboards: "grafana"
+spec:
+  config:
+    log:
+      mode: console
+      level: warn
+      format: json
+    security:
+      admin_user: admin
+    analytics:
+      reporting_enabled: "false"
+      check_for_updates: "false"
+  deployment:
+    spec:
+      replicas: 1
+      template:
+        spec:
+          containers:
+            - name: grafana
+              resources:
+                requests:
+                  cpu: 200m
+                  memory: 256Mi
+                limits:
+                  memory: 512Mi
+              env:
+                - name: GF_DATABASE_TYPE
+                  value: postgres
+                - name: PG_HOST
+                  valueFrom:
+                    secretKeyRef: {name: grafana-pg-app, key: host}
+                - name: PG_PORT
+                  valueFrom:
+                    secretKeyRef: {name: grafana-pg-app, key: port}
+                - name: GF_DATABASE_HOST
+                  value: $(PG_HOST):$(PG_PORT)
+                - name: GF_DATABASE_NAME
+                  valueFrom:
+                    secretKeyRef: {name: grafana-pg-app, key: dbname}
+                - name: GF_DATABASE_USER
+                  valueFrom:
+                    secretKeyRef: {name: grafana-pg-app, key: username}
+                - name: GF_DATABASE_PASSWORD
+                  valueFrom:
+                    secretKeyRef: {name: grafana-pg-app, key: password}
+                - name: GF_DATABASE_SSL_MODE
+                  value: require
+                - name: GF_SECURITY_ADMIN_PASSWORD
+                  valueFrom:
+                    secretKeyRef: {name: grafana-admin, key: password}
+  ingress:
+    spec:
+      ingressClassName: tailscale
+      defaultBackend:
+        service:
+          name: grafana-service
+          port:
+            number: 3000
+      tls:
+      - hosts:
+        - grafana

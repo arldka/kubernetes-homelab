@@ -1,0 +1,12 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: operator
+spec:
+  interval: 10m
+  layerSelector:
+    mediaType: "application/vnd.cncf.flux.content.v1.tar+gzip"
+    operation: copy
+  url: oci://ghcr.io/grafana/kustomize/grafana-operator
+  ref:
+    semver: ">= v5.25.0 < 5.26.0"

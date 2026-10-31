@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/refs/heads/master/deploy/v4.13.6/crd-csi-snapshot.yaml
+  - https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/refs/heads/master/deploy/v4.13.6/csi-nfs-controller.yaml
+  - https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/refs/heads/master/deploy/v4.13.6/csi-nfs-driverinfo.yaml
+  - https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/refs/heads/master/deploy/v4.13.6/csi-nfs-node.yaml
+  - https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/refs/heads/master/deploy/v4.13.6/csi-snapshot-controller.yaml
+  - https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/refs/heads/master/deploy/v4.13.6/rbac-csi-nfs.yaml
+  - https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/refs/heads/master/deploy/v4.13.6/rbac-snapshot-controller.yaml
+  - https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/refs/heads/master/deploy/v4.13.6/snapshotclass.yaml
+  - https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/refs/heads/master/deploy/v4.13.6/storageclass.yaml
+patches:
+  - target:
+      version: v1
+      group: storage.k8s.io
+      kind: StorageClass
+    patch: |-
+      - op: replace
+        path: /mountOptions/0
+        value: "nfsvers=3"
+      - op: add
+        path: /mountOptions/1
+        value: "nolock"
+      - op: replace
+        path: /parameters/server
+        value: 192.168.1.200
+      - op: replace
+        path: /parameters/share
+        value: /volume1/Main/configurations

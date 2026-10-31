@@ -6,7 +6,6 @@ metadata:
 spec:
   interval: 10m0s
   prune: false
-  suspend: true
   path: ./apps/homelab
   patches:
   - target:

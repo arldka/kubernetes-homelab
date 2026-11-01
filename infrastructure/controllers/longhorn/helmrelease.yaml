@@ -14,7 +14,13 @@ spec:
         name: longhorn-repo
       version: v1.13.0
   values:
+    csi:
+      attacherReplicaCount: 1
+      provisionerReplicaCount: 1
+      snapshotterReplicaCount: 1
     longhornUI:
+      replicas: 1
+    longhornGlobalManager:
       replicas: 1
     defaultSettings:
       defaultDataPath: /var/mnt/longhorn

@@ -1,7 +1,27 @@
 stages:
 - test
 - secret-detection
+#- renovate
 secret_detection:
   stage: secret-detection
 include:
 - template: Security/Secret-Detection.gitlab-ci.yml
+
+#renovate:
+#  stage: renovate
+#  image:
+#    name: ghcr.io/renovatebot/renovate:latest
+#    entrypoint: [""]
+#  variables:
+#    RENOVATE_PLATFORM: gitlab
+#    RENOVATE_ENDPOINT: $CI_API_V4_URL
+#    RENOVATE_REPOSITORIES: $CI_PROJECT_PATH
+#    RENOVATE_GIT_AUTHOR: "Renovate Bot <renovate@noreply.gitlab.com>"
+#    LOG_LEVEL: info
+#  script:
+#    - renovate
+#  needs: []
+#  rules:
+#    - if: $CI_PIPELINE_SOURCE == "schedule"
+#    - if: $CI_PIPELINE_SOURCE == "web"
+#      when: manual

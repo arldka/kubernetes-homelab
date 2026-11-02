@@ -10,4 +10,4 @@ spec:
     operation: copy
   url: oci://ghcr.io/prometheus-community/charts/prometheus-node-exporter
   ref:
-    semver: ">= 4.60.0 < 5.0.0"
+    tag: 4.60.0

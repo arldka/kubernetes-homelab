@@ -1,0 +1,47 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["config:recommended"],
+  // Majors are ignored. Minor/patch updates automerge for stable (>= 1.0.0) deps;
+  // 0.x deps still get PRs but are merged by hand. Flux deploys whatever lands on main.
+  enabledManagers: ["flux", "kubernetes", "kustomize", "custom.regex"],
+  semanticCommits: "enabled",
+  semanticCommitType: "chore",
+  semanticCommitScope: "deps",
+  prConcurrentLimit: 5,
+  packageRules: [
+    {
+      matchUpdateTypes: ["major"],
+      enabled: false,
+    },
+    {
+      matchUpdateTypes: ["minor", "patch"],
+      matchCurrentVersion: ">=1.0.0",
+      automerge: true,
+      automergeType: "pr",
+    },
+  ],
+
+  // Flux HelmRelease/HelmRepository, OCIRepository (ref.tag). Default pattern only matches gotk-components.yaml.
+  flux: {
+    managerFilePatterns: ["/\\.ya?ml$/"],
+  },
+
+  // Container images in plain manifests. No default pattern.
+  kubernetes: {
+    managerFilePatterns: ["/\\.ya?ml$/"],
+  },
+
+  // kustomize: the default pattern (kustomization.yaml) is enough.
+
+  customManagers: [
+    {
+      // Generic annotation, placed on the line directly above the version it tracks:
+      //   # renovate: datasource=<ds> depName=<name> [versioning=<v>] [registryUrl=<url>] [extractVersion=<regex>]
+      customType: "regex",
+      managerFilePatterns: ["/\\.ya?ml$/"],
+      matchStrings: [
+        "#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(?:\\s+versioning=(?<versioning>\\S+))?(?:\\s+registryUrl=(?<registryUrl>\\S+))?(?:\\s+extractVersion=(?<extractVersion>\\S+))?\\s*\\n[^\\n]*?(?<currentValue>v?\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.]+)?)",
+      ],
+    },
+  ],
+}

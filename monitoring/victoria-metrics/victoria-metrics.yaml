@@ -6,6 +6,7 @@ metadata:
 spec:
   image:
     repository: victoriametrics/victoria-metrics
+    # renovate: datasource=docker depName=victoriametrics/victoria-metrics
     tag: v1.154.1
     pullPolicy: Always
   retentionPeriod: "30"

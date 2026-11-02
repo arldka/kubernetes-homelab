@@ -1,7 +1,7 @@
 stages:
 - test
 - secret-detection
-#- renovate
+- renovate
 secret_detection:
   stage: secret-detection
 include:

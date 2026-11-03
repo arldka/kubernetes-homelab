@@ -6,6 +6,9 @@ metadata:
 spec:
   instances: 1
   imageName: ghcr.io/immich-app/postgres:17-vectorchord1.1.1-pgvector0.8.5
+  # Debian-based postgres image: postgres user is 999, not CNPG's default 26
+  postgresUID: 999
+  postgresGID: 999
   bootstrap:
     initdb:
       database: immich

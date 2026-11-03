@@ -35,7 +35,7 @@ spec:
           containers:
             main:
               image:
-                tag: 3.3.5
+                tag: v3.3.5
               env:
                 DB_HOSTNAME:
                   valueFrom:

@@ -7,7 +7,7 @@ spec:
   image:
     repository: victoriametrics/victoria-metrics
     # renovate: datasource=docker depName=victoriametrics/victoria-metrics
-    tag: v1.154.1
+    tag: v1.155.0
     pullPolicy: Always
   retentionPeriod: "30"
   removePvcAfterDelete: true

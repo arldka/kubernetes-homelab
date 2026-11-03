@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/name: garage
     app.kubernetes.io/instance: garage
     # renovate: datasource=docker depName=dxflrs/amd64_garage
-    app.kubernetes.io/version: "v2.4.1"
+    app.kubernetes.io/version: "v2.5.0"
 ---
 # Source: garage/templates/configmap.yaml
 apiVersion: v1
@@ -63,7 +63,7 @@ metadata:
     app.kubernetes.io/name: garage
     app.kubernetes.io/instance: garage
     # renovate: datasource=docker depName=dxflrs/amd64_garage
-    app.kubernetes.io/version: "v2.4.1"
+    app.kubernetes.io/version: "v2.5.0"
 rules:
 - apiGroups: ["apiextensions.k8s.io"]
   resources: ["customresourcedefinitions"]
@@ -82,7 +82,7 @@ metadata:
     app.kubernetes.io/name: garage
     app.kubernetes.io/instance: garage
     # renovate: datasource=docker depName=dxflrs/amd64_garage
-    app.kubernetes.io/version: "v2.4.1"
+    app.kubernetes.io/version: "v2.5.0"
 subjects:
 - kind: ServiceAccount
   name: garage
@@ -101,7 +101,7 @@ metadata:
     app.kubernetes.io/name: garage
     app.kubernetes.io/instance: garage
     # renovate: datasource=docker depName=dxflrs/amd64_garage
-    app.kubernetes.io/version: "v2.4.1"
+    app.kubernetes.io/version: "v2.5.0"
 spec:
   type: ClusterIP
   clusterIP: None
@@ -127,7 +127,7 @@ metadata:
     app.kubernetes.io/name: garage
     app.kubernetes.io/instance: garage
     # renovate: datasource=docker depName=dxflrs/amd64_garage
-    app.kubernetes.io/version: "v2.4.1"
+    app.kubernetes.io/version: "v2.5.0"
 spec:
   type: ClusterIP
   ports:
@@ -152,7 +152,7 @@ metadata:
     app.kubernetes.io/name: garage
     app.kubernetes.io/instance: garage
     # renovate: datasource=docker depName=dxflrs/amd64_garage
-    app.kubernetes.io/version: "v2.4.1"
+    app.kubernetes.io/version: "v2.5.0"
 spec:
   selector:
     matchLabels:
@@ -169,7 +169,7 @@ spec:
         app.kubernetes.io/name: garage
         app.kubernetes.io/instance: garage
         # renovate: datasource=docker depName=dxflrs/amd64_garage
-        app.kubernetes.io/version: "v2.4.1"
+        app.kubernetes.io/version: "v2.5.0"
     spec:
       serviceAccountName: garage
       securityContext:
@@ -212,7 +212,7 @@ spec:
               - ALL
             readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
-          image: "dxflrs/amd64_garage:v2.4.1"
+          image: "dxflrs/amd64_garage:v2.5.0"
           imagePullPolicy: IfNotPresent
           command:
             - /garage

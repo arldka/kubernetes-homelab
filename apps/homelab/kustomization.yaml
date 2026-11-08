@@ -5,3 +5,4 @@ resources:
 - media-server-gitrepo.yaml
 - ../base/immich
 - ../base/paperless
+- ../base/adventurelog

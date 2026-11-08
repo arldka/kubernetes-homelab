@@ -36,6 +36,8 @@ spec:
         env:
         - name: PAPERLESS_PORT
           value: "8000"
+        - name: PAPERLESS_URL
+          value: https://paperless.${TAILNET}
         - name: PAPERLESS_REDIS
           value: redis://paperless-valkey:6379
         - name: PAPERLESS_DBENGINE

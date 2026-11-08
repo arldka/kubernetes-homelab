@@ -4,3 +4,4 @@ resources:
 - media-server-ks.yaml
 - media-server-gitrepo.yaml
 - ../base/immich
+- ../base/paperless

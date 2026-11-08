@@ -1,0 +1,22 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: adventurelog-pg
+  namespace: adventurelog
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgis:17-3.6-system-trixie
+  bootstrap:
+    initdb:
+      database: adventurelog
+      owner: adventurelog
+      postInitApplicationSQL:
+      - CREATE EXTENSION IF NOT EXISTS postgis;
+  storage:
+    size: 5Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 512Mi

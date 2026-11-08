@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adventurelog
+  namespace: adventurelog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adventurelog
+  template:
+    metadata:
+      labels:
+        app: adventurelog
+    spec:
+      containers:
+      - name: adventurelog
+        # all-in-one image: nginx + SvelteKit frontend + Django backend on port 80
+        image: ghcr.io/seanmorley15/adventurelog:v0.13.1
+        ports:
+        - name: http
+          containerPort: 80
+        env:
+        - name: SITE_URL
+          value: https://adventurelog.${TAILNET}
+        - name: PGHOST
+          valueFrom:
+            secretKeyRef:
+              name: adventurelog-pg-app
+              key: host
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: adventurelog-pg-app
+              key: dbname
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: adventurelog-pg-app
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: adventurelog-pg-app
+              key: password
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: adventurelog-secret
+              key: secret-key
+        - name: DJANGO_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: adventurelog-secret
+              key: admin-password
+        - name: DJANGO_ADMIN_USERNAME
+          value: admin
+        - name: DJANGO_ADMIN_EMAIL
+          value: arthur.laurent@arldka.cloud
+        volumeMounts:
+        - name: media
+          mountPath: /code/media
+        startupProbe:
+          httpGet:
+            path: /health
+            port: http
+          periodSeconds: 10
+          failureThreshold: 30
+        resources:
+          requests:
+            cpu: 200m
+            memory: 1Gi
+          limits:
+            memory: 4Gi
+      volumes:
+      - name: media
+        persistentVolumeClaim:
+          claimName: adventurelog-media
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adventurelog
+  namespace: adventurelog
+spec:
+  selector:
+    app: adventurelog
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: adventurelog
+  namespace: adventurelog
+spec:
+  ingressClassName: tailscale
+  defaultBackend:
+    service:
+      name: adventurelog
+      port:
+        number: 80
+  tls:
+  - hosts:
+    - adventurelog

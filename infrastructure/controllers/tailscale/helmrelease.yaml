@@ -12,4 +12,4 @@ spec:
         kind: HelmRepository
         name: tailscale
         namespace: tailscale
-      version: 1.104.4
+      version: 1.104.7

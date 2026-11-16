@@ -4,6 +4,7 @@ commonAnnotations:
   kustomize.toolkit.fluxcd.io/prune: disabled
 resources:
 - datasource.yaml
+- etcd-vmnodescrape.yaml
 - kubelet-cadvisor-vmnodescrape.yaml
 - victoria-metrics.yaml
 - victoria-metrics-agent.yaml

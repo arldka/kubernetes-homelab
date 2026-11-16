@@ -1,0 +1,19 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMNodeScrape
+metadata:
+  name: etcd
+  namespace: monitoring
+spec:
+  port: "2381"
+  scheme: http
+  path: /metrics
+  interval: 30s
+  scrapeTimeout: 20s
+  selector:
+    matchLabels:
+      node-role.kubernetes.io/control-plane: ""
+  relabelConfigs:
+    - action: labelmap
+      regex: __meta_kubernetes_node_label_(.+)
+    - targetLabel: job
+      replacement: etcd

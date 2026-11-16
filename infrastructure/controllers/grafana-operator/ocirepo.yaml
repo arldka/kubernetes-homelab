@@ -9,4 +9,4 @@ spec:
     operation: copy
   url: oci://ghcr.io/grafana/kustomize/grafana-operator
   ref:
-    tag: v5.25.0
+    tag: v5.26.0

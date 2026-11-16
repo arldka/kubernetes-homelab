@@ -5,4 +5,4 @@ resources:
   - media-server-gitrepo.yaml
   - ../base/immich
   - ../base/paperless
-  - ../base/adventurelog # Removes adventurelog for now as it doesnt match current usecase.
+# - ../base/adventurelog # Removes adventurelog for now as it doesnt match current usecase.

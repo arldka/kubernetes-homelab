@@ -1,0 +1,62 @@
+# Default deny in both directions for the whole namespace.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+---
+# DNS to CoreDNS only.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+---
+# The tunnel itself: outbound 7844 (QUIC over UDP, HTTP/2 fallback over TCP) to Cloudflare's
+# region1/region2.v2.argotunnel.com ranges. Source: Cloudflare docs, "Tunnel with firewall".
+# The optional 443 destinations (update checks) are not allowed: autoupdate is disabled.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-cloudflare-tunnel-egress
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: cloudflared
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 198.41.192.0/24 # region1
+        - ipBlock:
+            cidr: 198.41.200.0/24 # region2
+        - ipBlock:
+            cidr: 2606:4700:a0::/48 # region1 (IPv6)
+        - ipBlock:
+            cidr: 2606:4700:a8::/48 # region2 (IPv6)
+      ports:
+        - protocol: UDP
+          port: 7844
+        - protocol: TCP
+          port: 7844

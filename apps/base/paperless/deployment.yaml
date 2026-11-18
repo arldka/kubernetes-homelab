@@ -38,6 +38,8 @@ spec:
           value: "8000"
         - name: PAPERLESS_URL
           value: https://paperless.${TAILNET}
+        - name: ALLOWED_HOSTS # Adds cilium IPs
+          value: "10.244.*"
         - name: PAPERLESS_REDIS
           value: redis://paperless-valkey:6379
         - name: PAPERLESS_DBENGINE

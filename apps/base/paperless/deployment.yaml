@@ -38,8 +38,10 @@ spec:
           value: "8000"
         - name: PAPERLESS_URL
           value: https://paperless.${TAILNET}
-        - name: ALLOWED_HOSTS # Need to add * because probes don´t use correct HTTP Host headers
-          value: "*"
+        - name: PAPERLESS_ALLOWED_HOSTS
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
         - name: PAPERLESS_REDIS
           value: redis://paperless-valkey:6379
         - name: PAPERLESS_DBENGINE

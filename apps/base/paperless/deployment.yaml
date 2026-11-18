@@ -39,7 +39,9 @@ spec:
         - name: PAPERLESS_URL
           value: https://paperless.${TAILNET}
         - name: ALLOWED_HOSTS # Adds cilium IPs
-          value: "10.244.*"
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
         - name: PAPERLESS_REDIS
           value: redis://paperless-valkey:6379
         - name: PAPERLESS_DBENGINE

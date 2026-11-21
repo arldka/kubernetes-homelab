@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: flux-system
 resources:
 # renovate: datasource=github-releases depName=fluxcd/flux2
-- https://github.com/fluxcd/flux2/releases/download/v2.10.0/install.yaml
+- https://github.com/fluxcd/flux2/releases/download/v2.10.1/install.yaml
 - gitrepo.yaml
 - root-ks.yaml
 patches:

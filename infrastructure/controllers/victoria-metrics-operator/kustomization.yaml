@@ -2,4 +2,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 # renovate: datasource=github-releases depName=VictoriaMetrics/operator
-- https://github.com/VictoriaMetrics/operator/releases/download/v0.75.2/install-no-webhook.yaml
+- https://github.com/VictoriaMetrics/operator/releases/download/v0.76.0/install-no-webhook.yaml
